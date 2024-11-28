@@ -10,9 +10,12 @@ const PORT = 3000;
 app.use(express.static(path.join(__dirname, "../../public")));
 
 // API route for fetching weather
-app.get("/api/weather", async (req: Request, res: Response) => {
+app.get("/api/weather", async (req: Request, res: Response): Promise<void> => {
     const city = req.query.city as string;
-    if (!city) return res.status(400).send("City is required");
+    if (!city){ 
+        res.status(400).send("City is required");
+        return;
+    }
     
     try {
         const data = await WeatherResponse(city);
