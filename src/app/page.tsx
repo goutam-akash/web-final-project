@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import Container from "@/components/Container";
@@ -105,7 +104,7 @@ export default function Home() {
       data?.list.map(
         (entry) => new Date(entry.dt * 1000).toISOString().split("T")[0]
       )
-    )
+    ),
   ];
 
   // Filtering data to get the first entry after 6 AM for each unique date
@@ -131,9 +130,9 @@ export default function Home() {
       </div>
     );
   return (
-    <div className="flex flex-col gap-4 bg-gray-100 min-h-screen ">
+    <div className="flex flex-col gap-4 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white min-h-screen ">
       <Navbar location={data?.city.name} />
-      <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9  w-full  pb-10 pt-4 ">
+      <main className="px-4 max-w-7xl mx-auto flex flex-col gap-12 w-full pb-10 pt-6 shadow-lg rounded-lg bg-white/10 backdrop-blur-md">
         {/* today data  */}
         {loadingCity ? (
           <WeatherSkeleton />
@@ -147,10 +146,11 @@ export default function Home() {
                     ({format(parseISO(firstData?.dt_txt ?? ""), "dd.MM.yyyy")})
                   </p>
                 </h2>
-                <Container className=" gap-10 px-6 items-center">
+                <Container className=" gap-10 px-6 items-center bg-white/20 backdrop-blur-lg shadow-md rounded-lg p-4 hover:scale-105 transition-transform duration-200">
                   {/* temprature */}
-                  <div className=" flex flex-col px-4 ">
-                    <span className="text-5xl">
+                  <div className="flex flex-col px-4 text-center text-gray-900">
+                    <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-500 to-red-600">
+                      {" "}
                       {convertKelvinToCelsius(firstData?.main.temp ?? 296.37)}°
                     </span>
                     <p className="text-xs space-x-1 whitespace-nowrap">
@@ -175,24 +175,25 @@ export default function Home() {
                     </p>
                   </div>
                   {/* time  and weather  icon */}
-                  <div className="flex gap-10 sm:gap-16 overflow-x-auto w-full justify-between pr-3">
+                  <div className="flex gap-10 sm:gap-16 overflow-x-auto w-full justify-between pr-3 bg-white/10 shadow-inner rounded-md p-3 hover:bg-opacity-20 transition-colors duration-200">
                     {data?.list.map((d, i) => (
                       <div
                         key={i}
-                        className="flex flex-col justify-between gap-2 items-center text-xs font-semibold "
+                        className="flex flex-col justify-between gap-2 items-center text-xs font-semibold text-gray-200 hover:text-white"
                       >
-                        <p className="whitespace-nowrap">
+                        <p className="whitespace-nowrap text-blue-100 shadow-sm">
                           {format(parseISO(d.dt_txt), "h:mm a")}
                         </p>
-
-                        {/* <WeatherIcon iconName={d.weather[0].icon} /> */}
                         <WeatherIcon
                           iconName={getDayOrNightIcon(
                             d.weather[0].icon,
                             d.dt_txt
                           )}
+                          className="w-8 h-8"
                         />
-                        <p>{convertKelvinToCelsius(d?.main.temp ?? 0)}°</p>
+                        <p className="text-yellow-300">
+                          {convertKelvinToCelsius(d?.main.temp ?? 0)}°
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -266,37 +267,19 @@ export default function Home() {
 
 function WeatherSkeleton() {
   return (
-    <section className="space-y-8 ">
-      {/* Today's data skeleton */}
-      <div className="space-y-2 animate-pulse">
-        {/* Date skeleton */}
-        <div className="flex gap-1 text-2xl items-end ">
-          <div className="h-6 w-24 bg-gray-300 rounded"></div>
-          <div className="h-6 w-24 bg-gray-300 rounded"></div>
-        </div>
-
-        {/* Time wise temperature skeleton */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((index) => (
-            <div key={index} className="flex flex-col items-center space-y-2">
-              <div className="h-6 w-16 bg-gray-300 rounded"></div>
-              <div className="h-6 w-6 bg-gray-300 rounded-full"></div>
-              <div className="h-6 w-16 bg-gray-300 rounded"></div>
-            </div>
-          ))}
-        </div>
+    <section className="space-y-8 animate-pulse text-gray-300">
+      {/* Skeleton header */}
+      <div className="flex gap-2 text-2xl items-end">
+        <div className="h-6 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded"></div>
+        <div className="h-6 w-24 bg-gradient-to-r from-pink-500 to-yellow-500 rounded"></div>
       </div>
-
-      {/* 7 days forecast skeleton */}
-      <div className="flex flex-col gap-4 animate-pulse">
-        <p className="text-2xl h-8 w-36 bg-gray-300 rounded"></p>
-
-        {[1, 2, 3, 4, 5, 6, 7].map((index) => (
-          <div key={index} className="grid grid-cols-2 md:grid-cols-4 gap-4 ">
-            <div className="h-8 w-28 bg-gray-300 rounded"></div>
-            <div className="h-10 w-10 bg-gray-300 rounded-full"></div>
-            <div className="h-8 w-28 bg-gray-300 rounded"></div>
-            <div className="h-8 w-28 bg-gray-300 rounded"></div>
+      {/* Skeleton grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[1, 2, 3, 4].map((index) => (
+          <div key={index} className="flex flex-col items-center space-y-2">
+            <div className="h-6 w-16 bg-gray-300/40 rounded"></div>
+            <div className="h-6 w-6 bg-gray-300/40 rounded-full"></div>
+            <div className="h-6 w-16 bg-gray-300/40 rounded"></div>
           </div>
         ))}
       </div>

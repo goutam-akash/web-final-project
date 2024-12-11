@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import Container from "./Container";
 import WeatherIcon from "./WeatherIcon";
@@ -28,30 +26,33 @@ export default function ForecastWeatherDetail(
     feels_like,
     temp_min,
     temp_max,
-    description
+    description,
   } = props;
   return (
-    <Container className="gap-4">
-      {/* left */}
-      <section className=" flex gap-4 items-center px-4  ">
-        <div className=" flex flex-col gap-1 items-center">
-          <WeatherIcon iconName={weatehrIcon} />
-          <p>{date}</p>
-          <p className="text-sm">{day} </p>
+    <Container className="gap-4 bg-gradient-to-r from-blue-100 via-white to-blue-50 rounded-lg shadow-md p-4">
+      {/* Left Section */}
+      <section className="flex gap-4 items-center px-4">
+        <div className="flex flex-col gap-1 items-center text-gray-700">
+          <WeatherIcon iconName={weatehrIcon} className="w-12 h-12" />
+          <p className="font-medium text-lg">{date}</p>
+          <p className="text-sm text-gray-500">{day}</p>
         </div>
-
-        {/*  */}
-        <div className="flex flex-col px-4">
-          <span className="text-5xl">{convertKelvinToCelsius(temp ?? 0)}°</span>
-          <p className="text-xs space-x-1 whitespace-nowrap">
-            <span> Feels like</span>
-            <span>{convertKelvinToCelsius(feels_like ?? 0)}°</span>
+        <div className="flex flex-col px-4 text-gray-800">
+          <span className="text-5xl font-bold">
+            {convertKelvinToCelsius(temp ?? 0)}°
+          </span>
+          <p className="text-xs space-x-1 text-gray-500">
+            <span>Feels like</span>
+            <span className="font-medium">
+              {convertKelvinToCelsius(feels_like ?? 0)}°
+            </span>
           </p>
-          <p className="capitalize"> {description}</p>
+          <p className="capitalize text-gray-600">{description}</p>
         </div>
       </section>
-      {/* right */}
-      <section className=" overflow-x-auto flex justify-between gap-4 px-4  w-full pr-10">
+
+      {/* Right Section */}
+      <section className="overflow-x-auto flex justify-between gap-4 px-4 w-full pr-10">
         <WeatherDetails {...props} />
       </section>
     </Container>

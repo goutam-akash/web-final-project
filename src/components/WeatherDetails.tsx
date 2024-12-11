@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import { LuEye, LuSunrise, LuSunset } from "react-icons/lu";
 import { FiDroplet } from "react-icons/fi";
@@ -22,7 +20,7 @@ export default function WeatherDetails(props: WeatherDetailProps) {
     windSpeed = "7 km/h",
     airPressure = "1012 hPa",
     sunrise = "6.20",
-    sunset = "18:48"
+    sunset = "18:48",
   } = props;
 
   return (
@@ -71,8 +69,9 @@ function SingleWeatherDetail(props: SingleWeatherDetailProps) {
   return (
     <div className="flex flex-col justify-between gap-2 items-center text-xs font-semibold text-black/80">
       <p className="whitespace-nowrap">{props.information}</p>
-      <div className="text-3xl">{props.icon}</div>
-      <p>{props.value}</p>
+      <div className="text-3xl text-blue-500">{props.icon}</div>{" "}
+      {/* Add color to icons */}
+      <p className="text-gray-700">{props.value}</p> {/* Adjust value color */}
     </div>
   );
 }
