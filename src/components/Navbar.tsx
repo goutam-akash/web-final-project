@@ -1,4 +1,3 @@
-/** @format */
 "use client";
 
 import React from "react";
@@ -115,7 +114,7 @@ export default function Navbar({ location }: Props) {
                   showSuggestions,
                   suggestions,
                   handleSuggestionClick,
-                  error
+                  error,
                 }}
               />
             </div>
@@ -136,7 +135,7 @@ export default function Navbar({ location }: Props) {
               showSuggestions,
               suggestions,
               handleSuggestionClick,
-              error
+              error,
             }}
           />
         </div>
@@ -149,7 +148,7 @@ function SuggetionBox({
   showSuggestions,
   suggestions,
   handleSuggestionClick,
-  error
+  error,
 }: {
   showSuggestions: boolean;
   suggestions: string[];
