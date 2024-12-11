@@ -1,4 +1,3 @@
-/** @format */
 
 export function getDayOrNightIcon(
     iconName: string,
