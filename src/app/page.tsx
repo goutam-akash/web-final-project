@@ -9,17 +9,14 @@ import { convertKelvinToCelsius } from "@/utils/convertKelvinToCelsius";
 import { convertWindSpeed } from "@/utils/convertWindSpeed";
 import { getDayOrNightIcon } from "@/utils/getDayOrNightIcon";
 import { metersToKilometers } from "@/utils/metersToKilometers";
-import axios from "axios";
 import { format, fromUnixTime, parseISO } from "date-fns";
 import Image from "next/image";
 import { useQuery } from "react-query";
 import { loadingCityAtom, placeAtom } from "./atom";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-// import { format as dateFromate } from "date-format";
+import { fetchWeather } from "./lib/data";
 
-// var format = require('date-format');
-// format('hh:mm:ss.SSS', new Date()); // just the time
 interface WeatherDetail {
   dt: number;
   main: {
@@ -82,12 +79,11 @@ export default function Home() {
   const { isLoading, error, data, refetch } = useQuery<WeatherData>(
     "repoData",
     async () => {
-      const { data } = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}&cnt=56`
-      );
+      const  data = await fetchWeather(place);
       return data;
     }
   );
+
 
   useEffect(() => {
     refetch();

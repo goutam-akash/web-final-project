@@ -1,17 +1,17 @@
-"use client";
+
 
 import React from "react";
-import { MdOutlineLocationOn, MdWbSunny } from "react-icons/md";
-import { MdMyLocation } from "react-icons/md";
+import { MdWbSunny } from "react-icons/md";
 import SearchBox from "./SearchBox";
 import { useState } from "react";
-import axios from "axios";
 import { loadingCityAtom, placeAtom } from "@/app/atom";
 import { useAtom } from "jotai";
+import { fetchNavBarWeather } from "@/app/lib/data";
+
+
+
 
 type Props = { location?: string };
-
-const API_KEY = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
 export default function Navbar({ location }: Props) {
   const [city, setCity] = useState("");
@@ -26,11 +26,9 @@ export default function Navbar({ location }: Props) {
     setCity(value);
     if (value.length >= 3) {
       try {
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/find?q=${value}&appid=${API_KEY}`
-        );
+        const response = await fetchNavBarWeather(value);
 
-        const suggestions = response.data.list.map((item: any) => item.name);
+        const suggestions = response.list.map((item: any) => item.name);
         setSuggestions(suggestions);
         setError("");
         setShowSuggestions(true);
@@ -65,25 +63,7 @@ export default function Navbar({ location }: Props) {
     }
   }
 
-  function handleCurrentLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async (postiion) => {
-        const { latitude, longitude } = postiion.coords;
-        try {
-          setLoadingCity(true);
-          const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
-          );
-          setTimeout(() => {
-            setLoadingCity(false);
-            setPlace(response.data.name);
-          }, 500);
-        } catch (error) {
-          setLoadingCity(false);
-        }
-      });
-    }
-  }
+  
   return (
     <>
       <nav className="shadow-sm  sticky top-0 left-0 z-50 bg-white">
@@ -94,12 +74,7 @@ export default function Navbar({ location }: Props) {
           </p>
           {/*  */}
           <section className="flex gap-2 items-center">
-            <MdMyLocation
-              title="Your Current Location"
-              onClick={handleCurrentLocation}
-              className="text-2xl  text-gray-400 hover:opacity-80 cursor-pointer"
-            />
-            <MdOutlineLocationOn className="text-3xl" />
+            
             <p className="text-slate-900/80 text-sm"> {location} </p>
             <div className="relative hidden md:flex">
               {/* SearchBox */}
